@@ -10,11 +10,11 @@ import 'semantic-ui-css/semantic.min.css'
 
 const Root = () =>{
    return <Router>
-        <Switch>
-            <Route exact path="/" component={App} />
-            <Route path="/register" component={Register} />
-            <Route path="/login" component={Login} />
-        </Switch>
+            <Switch>
+                <Route exact path="/" component={App} />
+                <Route path="/register" component={Register} />
+                <Route path="/login" component={Login} />
+            </Switch>
     </Router>
 }
 

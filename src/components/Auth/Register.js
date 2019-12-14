@@ -2,16 +2,20 @@ import React, {Component} from 'react'
 import {Grid, Form, Segment, Header, Icon, Button, Message, GridColumn} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import firebase from '../../firebase'
+import 'firebase/auth'
 
 class Register extends Component{
-    state ={
-        username: '',
-        email: '',
-        password: '',
-        passwordConfirmation: ''
-
+    constructor(){
+        super()
+        this.state ={
+            username: '',
+            email: '',
+            password: '',
+            passwordConfirmation: ''
+    
+        }
+    
     }
-
     handleChange =(event) =>{
         const {name, value} = event.target
         this.setState=({
@@ -21,17 +25,24 @@ class Register extends Component{
     handleSubmit=(event)=>{
         event.preventDefault()
         const {email, password} = this.state
-        firebase
+        firebase 
             .auth()
-            .createUserWithEmailAndPassword(email.trim(), password)
+            .createUserWithEmailAndPassword(email, password)
             .then(createUser => {
                 console.log(createUser)
             })
             .catch(err =>{
                 console.error(err)
             })
-           
+          
     }
+    validate(){
+        const auth = firebase.auth();
+        const promise = auth.signInWithEmailAndPassword(this.state.email, this.state.password);
+        promise.catch(function(error){
+         console.log("Got a error", error);
+        })
+        }
     render(){
         // const{username, email, password, passwordConfirmation} = this.state
         return(
