@@ -1,6 +1,6 @@
 import React from "react"
-import firebase from '../../firebase'
-import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
+import firebase from "../../firebase"
+import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react"
 
 class Channels extends React.Component {
   state = {
@@ -8,61 +8,86 @@ class Channels extends React.Component {
     channels: [],
     channelName: "",
     channelDetails: "",
-    modal: false,
-    channelsRef: firebase.database().ref('channels')
+    channelsRef: firebase.database().ref("channels"),
+    modal: false
   }
+
+  componentDidMount() {
+    this.addListeners()
+  }
+
+  addListeners = () => {
+    let loadedChannels = [];
+    this.state.channelsRef.on("child_added", snap => {
+      loadedChannels.push(snap.val());
+      this.setState({ channels: loadedChannels })
+    })
+  }
+
   addChannel = () => {
-    const {channelsRef, channelName, channelDetails, user} = this.state
-    const key = channelsRef.push().key
-    const newchannel = {
+    const { channelsRef, channelName, channelDetails, user } = this.state
+
+    const key = channelsRef.push().key;
+
+    const newChannel = {
       id: key,
       name: channelName,
       details: channelDetails,
       createdBy: {
-        user: user.displayName,
-        avatar: user.photo.URL
+        name: user.displayName,
+        avatar: user.photoURL
       }
     }
-    
+
     channelsRef
       .child(key)
-      .update(newchannel)
-      .then(() =>{
-        this.setState({
-          channelName: '',
-          channelDetails: '',
-        })
-        this.closeModal() 
-        console.log('channel added') 
+      .update(newChannel)
+      .then(() => {
+        this.setState({ channelName: "", channelDetails: "" })
+        this.closeModal()
+        console.log("channel added");
       })
       .catch(err => {
-        console.log(err)
+        console.error(err);
       })
-    }  
+  }
 
-  
-
-  handleSubmit = e => {
-    e.preventDefault()
-    if(this.isFormValid(this.state)){
-       return this.addchannel
+  handleSubmit = event => {
+    event.preventDefault();
+    if (this.isFormValid(this.state)) {
+      this.addChannel()
     }
   }
-  isFormValid =({channelName, channelDetails}) => channelName && channelDetails
 
-  handleChange = e => {
-    const {name, value} = this.setState
+  handleChange = event => {
+    const {name, value} = this.state
     this.setState({ 
       [name]: value 
     })
   }
+
+  displayChannels = channels =>
+    channels.length > 0 &&
+    channels.map(channel => (
+      <Menu.Item
+        key={channel.id}
+        onClick={() => console.log(channel)}
+        name={channel.name}
+        style={{ opacity: 0.7 }}
+      >
+        # {channel.name}
+      </Menu.Item>
+    ))
+
+  isFormValid = ({ channelName, channelDetails }) =>
+    channelName && channelDetails;
 
   openModal = () => this.setState({ modal: true })
 
   closeModal = () => this.setState({ modal: false })
 
   render() {
-    const { channels, modal } = this.state
+    const { channels, modal } = this.state;
 
     return (
       <React.Fragment>
@@ -73,7 +98,7 @@ class Channels extends React.Component {
             </span>{" "}
             ({channels.length}) <Icon name="add" onClick={this.openModal} />
           </Menu.Item>
-          {/* Channels */}
+          {this.displayChannels(channels)}
         </Menu.Menu>
 
         {/* Add Channel Modal */}

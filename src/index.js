@@ -5,6 +5,7 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import Spinner from "./Spinner";
 import firebase from "./firebase";
+import registerServiceWorker from "./registerServiceWorker";
 
 import "semantic-ui-css/semantic.min.css";
 
@@ -69,4 +70,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
+registerServiceWorker();
 
