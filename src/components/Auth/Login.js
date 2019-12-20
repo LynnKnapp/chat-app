@@ -1,5 +1,5 @@
-import React from "react"
-import firebase from "../../firebase"
+import React from "react";
+import firebase from "../../firebase";
 import {
   Grid,
   Form,
@@ -17,42 +17,42 @@ class Login extends React.Component {
     password: "",
     errors: [],
     loading: false
-  }
+  };
 
   displayErrors = errors =>
-    errors.map((error, i) => <p key={i}>{error.message}</p>)
+    errors.map((error, i) => <p key={i}>{error.message}</p>);
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
-  }
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   handleSubmit = event => {
     event.preventDefault();
     if (this.isFormValid(this.state)) {
-      this.setState({ errors: [], loading: true })
+      this.setState({ errors: [], loading: true });
       firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(signedInUser => {
-          console.log(signedInUser)
+          console.log(signedInUser);
         })
         .catch(err => {
           console.error(err);
           this.setState({
             errors: this.state.errors.concat(err),
             loading: false
-          })
-        })
+          });
+        });
     }
-  }
+  };
 
-  isFormValid = ({ email, password }) => email && password
+  isFormValid = ({ email, password }) => email && password;
 
   handleInputError = (errors, inputName) => {
     return errors.some(error => error.message.toLowerCase().includes(inputName))
       ? "error"
-      : ""
-  }
+      : "";
+  };
 
   render() {
     const { email, password, errors, loading } = this.state;
