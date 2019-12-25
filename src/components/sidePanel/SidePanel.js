@@ -1,11 +1,11 @@
-import React, {Component} from "react"
+import React from "react"
 import UserPanel from "./UserPanel"
-import Channels from './Channels'
+import Channels from "./Channels"
 import { Menu } from "semantic-ui-react"
 
-class SidePanel extends Component {
+class SidePanel extends React.Component {
   render() {
-    const {currentUser} = this.props
+    const { currentUser } = this.props
 
     return (
       <Menu
@@ -22,4 +22,4 @@ class SidePanel extends Component {
   }
 }
 
-export default SidePanel;
+export default SidePanel

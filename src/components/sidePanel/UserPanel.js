@@ -1,8 +1,8 @@
-import React, {Component} from "react"
+import React from "react"
 import firebase from "../../firebase"
 import { Grid, Header, Icon, Dropdown, Image } from "semantic-ui-react"
 
-class UserPanel extends Component {
+class UserPanel extends React.Component {
   state = {
     user: this.props.currentUser
   }
@@ -31,11 +31,11 @@ class UserPanel extends Component {
     firebase
       .auth()
       .signOut()
-      .then(() => console.log("signed out!"));
+      .then(() => console.log("signed out!"))
   }
 
   render() {
-    const { user } = this.state
+    const { user } = this.state;
 
     return (
       <Grid style={{ background: "#4c3c4c" }}>
@@ -62,8 +62,8 @@ class UserPanel extends Component {
           </Grid.Row>
         </Grid.Column>
       </Grid>
-    )
+    );
   }
 }
 
-export default UserPanel;
+export default UserPanel
