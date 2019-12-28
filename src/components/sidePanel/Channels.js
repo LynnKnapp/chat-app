@@ -1,8 +1,8 @@
-import React from "react";
-import firebase from "../../firebase";
-import { connect } from "react-redux";
-import { setCurrentChannel } from "../../actions";
-import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
+import React from "react"
+import firebase from "../../firebase"
+import { connect } from "react-redux"
+import { setCurrentChannel } from "../../actions"
+import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react"
 
 class Channels extends React.Component {
   state = {
@@ -14,41 +14,41 @@ class Channels extends React.Component {
     channelsRef: firebase.database().ref("channels"),
     modal: false,
     firstLoad: true
-  };
+  }
 
   componentDidMount() {
-    this.addListeners();
+    this.addListeners()
   }
 
   componentWillUnmount() {
-    this.removeListeners();
+    this.removeListeners()
   }
 
   addListeners = () => {
-    let loadedChannels = [];
+    let loadedChannels = []
     this.state.channelsRef.on("child_added", snap => {
-      loadedChannels.push(snap.val());
-      this.setState({ channels: loadedChannels }, () => this.setFirstChannel());
-    });
-  };
+      loadedChannels.push(snap.val())
+      this.setState({ channels: loadedChannels }, () => this.setFirstChannel())
+    })
+  }
 
   removeListeners = () => {
-    this.state.channelsRef.off();
-  };
+    this.state.channelsRef.off()
+  }
 
   setFirstChannel = () => {
-    const firstChannel = this.state.channels[0];
+    const firstChannel = this.state.channels[0]
     if (this.state.firstLoad && this.state.channels.length > 0) {
-      this.props.setCurrentChannel(firstChannel);
-      this.setActiveChannel(firstChannel);
+      this.props.setCurrentChannel(firstChannel)
+      this.setActiveChannel(firstChannel)
     }
-    this.setState({ firstLoad: false });
-  };
+    this.setState({ firstLoad: false })
+  }
 
   addChannel = () => {
     const { channelsRef, channelName, channelDetails, user } = this.state;
 
-    const key = channelsRef.push().key;
+    const key = channelsRef.push().key
 
     const newChannel = {
       id: key,
@@ -58,40 +58,40 @@ class Channels extends React.Component {
         name: user.displayName,
         avatar: user.photoURL
       }
-    };
+    }
 
     channelsRef
       .child(key)
       .update(newChannel)
       .then(() => {
-        this.setState({ channelName: "", channelDetails: "" });
-        this.closeModal();
-        console.log("channel added");
+        this.setState({ channelName: "", channelDetails: "" })
+        this.closeModal()
+        console.log("channel added")
       })
       .catch(err => {
-        console.error(err);
-      });
-  };
+        console.error(err)
+      })
+  }
 
   handleSubmit = event => {
-    event.preventDefault();
+    event.preventDefault()
     if (this.isFormValid(this.state)) {
-      this.addChannel();
+      this.addChannel()
     }
-  };
+  }
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
   changeChannel = channel => {
-    this.setActiveChannel(channel);
-    this.props.setCurrentChannel(channel);
-  };
+    this.setActiveChannel(channel)
+    this.props.setCurrentChannel(channel)
+  }
 
   setActiveChannel = channel => {
-    this.setState({ activeChannel: channel.id });
-  };
+    this.setState({ activeChannel: channel.id })
+  }
 
   displayChannels = channels =>
     channels.length > 0 &&
@@ -110,9 +110,9 @@ class Channels extends React.Component {
   isFormValid = ({ channelName, channelDetails }) =>
     channelName && channelDetails;
 
-  openModal = () => this.setState({ modal: true });
+  openModal = () => this.setState({ modal: true })
 
-  closeModal = () => this.setState({ modal: false });
+  closeModal = () => this.setState({ modal: false })
 
   render() {
     const { channels, modal } = this.state;
@@ -164,7 +164,7 @@ class Channels extends React.Component {
           </Modal.Actions>
         </Modal>
       </React.Fragment>
-    );
+    )
   }
 }
 

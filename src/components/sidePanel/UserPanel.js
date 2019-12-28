@@ -5,7 +5,7 @@ import { Grid, Header, Icon, Dropdown, Image } from "semantic-ui-react"
 class UserPanel extends React.Component {
   state = {
     user: this.props.currentUser
-  }
+  };
 
   dropdownOptions = () => [
     {
@@ -25,7 +25,7 @@ class UserPanel extends React.Component {
       key: "signout",
       text: <span onClick={this.handleSignout}>Sign Out</span>
     }
-  ];
+  ]
 
   handleSignout = () => {
     firebase
@@ -35,7 +35,7 @@ class UserPanel extends React.Component {
   }
 
   render() {
-    const { user } = this.state;
+    const { user } = this.state
 
     return (
       <Grid style={{ background: "#4c3c4c" }}>
@@ -62,7 +62,7 @@ class UserPanel extends React.Component {
           </Grid.Row>
         </Grid.Column>
       </Grid>
-    );
+    )
   }
 }
 

@@ -38,7 +38,7 @@ class Register extends React.Component {
     } else {
       return true
     }
-  };
+  }
 
   isFormEmpty = ({ username, email, password, passwordConfirmation }) => {
     return (
@@ -46,8 +46,8 @@ class Register extends React.Component {
       !email.length ||
       !password.length ||
       !passwordConfirmation.length
-    );
-  };
+    )
+  }
 
   isPasswordValid = ({ password, passwordConfirmation }) => {
     if (password.length < 6 || passwordConfirmation.length < 6) {
@@ -57,14 +57,14 @@ class Register extends React.Component {
     } else {
       return true;
     }
-  };
+  }
 
   displayErrors = errors =>
     errors.map((error, i) => <p key={i}>{error.message}</p>)
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value })
-  };
+  }
 
   handleSubmit = event => {
     event.preventDefault();
@@ -74,7 +74,7 @@ class Register extends React.Component {
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(createdUser => {
-          console.log(createdUser);
+          console.log(createdUser)
           createdUser.user
             .updateProfile({
               displayName: this.state.username,
@@ -126,7 +126,7 @@ class Register extends React.Component {
       passwordConfirmation,
       errors,
       loading
-    } = this.state;
+    } = this.state
 
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
@@ -206,7 +206,7 @@ class Register extends React.Component {
           </Message>
         </Grid.Column>
       </Grid>
-    );
+    )
   }
 }
 

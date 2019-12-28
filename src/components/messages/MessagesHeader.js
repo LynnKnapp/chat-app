@@ -1,5 +1,5 @@
-import React from "react";
-import { Header, Segment, Input, Icon } from "semantic-ui-react";
+import React from "react"
+import { Header, Segment, Input, Icon } from "semantic-ui-react"
 
 class MessagesHeader extends React.Component {
   render() {
@@ -24,8 +24,8 @@ class MessagesHeader extends React.Component {
           />
         </Header>
       </Segment>
-    );
+    )
   }
 }
 
-export default MessagesHeader;
+export default MessagesHeader

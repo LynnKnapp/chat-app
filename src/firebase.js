@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import 'firebase/storage'
@@ -14,7 +14,7 @@ var firebaseConfig = {
     measurementId: "G-MMPD3DLT4M"
   };
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig)
   
 
   export default firebase

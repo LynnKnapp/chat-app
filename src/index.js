@@ -6,16 +6,8 @@ import Register from "./components/Auth/Register"
 import Spinner from "./Spinner"
 import registerServiceWorker from "./registerServiceWorker"
 import firebase from "./firebase"
-
 import "semantic-ui-css/semantic.min.css"
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  withRouter
-} from "react-router-dom"
-
+import { BrowserRouter as Router, Switch, Route, withRouter} from "react-router-dom"
 import { createStore } from "redux"
 import { Provider, connect } from "react-redux"
 import { composeWithDevTools } from "redux-devtools-extension"
@@ -29,7 +21,7 @@ class Root extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // console.log(user);
-        this.props.setUser(user);
+        this.props.setUser(user)
         this.props.history.push("/")
       } else {
         this.props.history.push("/login")
@@ -47,7 +39,7 @@ class Root extends React.Component {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
       </Switch>
-    );
+    )
   }
 }
 
@@ -69,5 +61,5 @@ ReactDOM.render(
     </Router>
   </Provider>,
   document.getElementById("root")
-);
+)
 registerServiceWorker()
