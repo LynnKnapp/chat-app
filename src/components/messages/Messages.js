@@ -1,10 +1,10 @@
-import React from "react";
-import { Segment, Comment } from "semantic-ui-react";
-import firebase from "../../firebase";
+import React from "react"
+import { Segment, Comment } from "semantic-ui-react"
+import firebase from "../../firebase"
 
-import MessagesHeader from "./MessagesHeader";
-import MessageForm from "./MessageForm";
-import Message from "./Message";
+import MessagesHeader from "./MessagesHeader"
+import MessageForm from "./MessageForm"
+import Message from "./Message"
 
 class Messages extends React.Component {
   state = {
@@ -12,8 +12,10 @@ class Messages extends React.Component {
     messages: [],
     messagesLoading: true,
     channel: this.props.currentChannel,
-    user: this.props.currentUser
-  };
+    user: this.props.currentUser,
+    ProgressBar: false,
+    numUniqueUsers: ''
+  }
 
   componentDidMount() {
     const { channel, user } = this.state;
@@ -24,8 +26,8 @@ class Messages extends React.Component {
   }
 
   addListeners = channelId => {
-    this.addMessageListener(channelId);
-  };
+    this.addMessageListener(channelId)
+  }
 
   addMessageListener = channelId => {
     let loadedMessages = [];
@@ -34,9 +36,23 @@ class Messages extends React.Component {
       this.setState({
         messages: loadedMessages,
         messagesLoading: false
-      });
-    });
-  };
+      })
+      this.countUniqueUsers(loadedMessages)
+    })
+  }
+
+  countUniqueUsers = messages => {
+    const uniqueUsers = messages.reduce((acc, message)=>{
+      if(!acc.includes(message.user.name)){
+        acc.push(message.user.name)
+      }
+      return acc
+    }, [])
+   
+    const plural = uniqueUsers.length > 1 || uniqueUsers.length === 0
+    const numUniqueUsers = `${uniqueUsers.length} user${plural ? 's' : ''}`
+    this.setState({numUniqueUsers})
+  }
 
   displayMessages = messages =>
     messages.length > 0 &&
@@ -46,17 +62,32 @@ class Messages extends React.Component {
         message={message}
         user={this.state.user}
       />
-    ));
+    ))
+  
+  isProgressBarVisable = percent =>{
+      if (percent > 0){
+        this.setState({
+          ProgressBar: true
+        })
+      }
+  } 
+
+  displayChannelName = channel => (channel ? `#${channel.name}` : "")
+  
 
   render() {
-    const { messagesRef, messages, channel, user } = this.state;
+    const { messagesRef, messages, channel, user, ProgressBar, numUniqueUsers } = this.state;
 
     return (
       <React.Fragment>
-        <MessagesHeader />
+        <MessagesHeader 
+          channelName={this.displayChannelName(channel)}
+          numUniqueUsers={numUniqueUsers}
+          />
 
         <Segment>
-          <Comment.Group className="messages">
+          <Comment.Group className={ProgressBar ? 'messages__progress' :
+              'messages'}>
             {this.displayMessages(messages)}
           </Comment.Group>
         </Segment>
@@ -65,10 +96,11 @@ class Messages extends React.Component {
           messagesRef={messagesRef}
           currentChannel={channel}
           currentUser={user}
+          isProgressBarVisable={this.isProgressBarVisable}
         />
       </React.Fragment>
     );
   }
 }
 
-export default Messages;
+export default Messages
