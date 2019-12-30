@@ -1,10 +1,10 @@
-import { combineReducers } from "redux"
-import * as actionTypes from "../actions/types"
+import { combineReducers } from "redux";
+import * as actionTypes from "../actions/types";
 
 const initialUserState = {
   currentUser: null,
   isLoading: true
-}
+};
 
 const user_reducer = (state = initialUserState, action) => {
   switch (action.type) {
@@ -12,20 +12,21 @@ const user_reducer = (state = initialUserState, action) => {
       return {
         currentUser: action.payload.currentUser,
         isLoading: false
-      }
+      };
     case actionTypes.CLEAR_USER:
       return {
         ...state,
         isLoading: false
       };
     default:
-      return state
+      return state;
   }
-}
+};
 
 const initialChannelState = {
-  currentChannel: null
-}
+  currentChannel: null,
+  isPrivateChannel: false
+};
 
 const channel_reducer = (state = initialChannelState, action) => {
   switch (action.type) {
@@ -33,15 +34,20 @@ const channel_reducer = (state = initialChannelState, action) => {
       return {
         ...state,
         currentChannel: action.payload.currentChannel
-      }
+      };
+    case actionTypes.SET_PRIVATE_CHANNEL:
+      return {
+        ...state,
+        isPrivateChannel: action.payload.isPrivateChannel
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 const rootReducer = combineReducers({
   user: user_reducer,
   channel: channel_reducer
-})
+});
 
-export default rootReducer
+export default rootReducer;
