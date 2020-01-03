@@ -3,7 +3,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import 'firebase/storage'
 
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyBMmlWWfdL2DQ2-3MEBzY6CzKW1mBozi0c",
     authDomain: "chit-chat-app-a9ad3.firebaseapp.com",
     databaseURL: "https://chit-chat-app-a9ad3.firebaseio.com",

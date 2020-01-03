@@ -144,7 +144,7 @@ class MessageForm extends React.Component {
   };
 
   render() {
-    // prettier-ignore
+    
     const { errors, message, loading, modal, uploadState, percentUploaded } = this.state;
 
     return (
